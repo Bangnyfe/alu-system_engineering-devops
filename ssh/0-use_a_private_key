@@ -1,0 +1,4 @@
+#!/bin/bash
+# Script that connects to a server using a private key
+
+ssh -i ~/.ssh/school ubuntu@8.8.8.8
