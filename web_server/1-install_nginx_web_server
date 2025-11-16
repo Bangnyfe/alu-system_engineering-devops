@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Configures a new Ubuntu machine with Nginx
+
+# Update package list
+apt-get update -y
+
+# Install nginx
+apt-get install nginx -y
+
+# Create a simple HTML page with "Holberton School"
+echo "Holberton School for the win!" > /var/www/html/index.html
+
+# Start nginx service
+service nginx start
