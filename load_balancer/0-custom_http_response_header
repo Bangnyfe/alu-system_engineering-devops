@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Configures Nginx with a custom HTTP response header
+# The custom header is named X-Served-By and contains the hostname
+
+# Update package list and install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Get the hostname
+# shellcheck disable=SC2154
+hostname=$(hostname)
+
+# Configure Nginx to add custom header
+# Add the add_header directive to the http block in nginx.conf
+config_line="add_header X-Served-By \$hostname;"
+
+# Check if the custom header is already configured
+if ! grep -q "X-Served-By" /etc/nginx/nginx.conf; then
+    # Add the custom header to the http block
+    sed -i "/http {/a \\\t$config_line" /etc/nginx/nginx.conf
+fi
+
+# Create a default index.html if it doesn't exist
+if [ ! -f /var/www/html/index.html ]; then
+    echo "Hello World!" > /var/www/html/index.html
+fi
+
+# Restart Nginx to apply changes
+service nginx restart
